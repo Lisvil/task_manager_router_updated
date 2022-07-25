@@ -18,7 +18,7 @@
           <div class="asigned_task__asigned-by"><i class="fas fa-user"></i>{{ allUsers[item.performer-1].name}} </div>
 
           <div class="asigned_task__buttons">
-            <button class="comment_btn" @click='transferDataToShowForm(item)'><i class="fas fa-comments"></i></button>
+            <button class="comment_btn" @click='transferDataToShowForm(item)'><i class="fas fa-comments"></i>(1)</button>
             <button class="edit_btn" @click='transferDataToForm(item)'><i class="fas fa-edit"></i></button>
             <button id="delete_btn" @click='deleteTask(item._id)'><i class="fas fa-trash-alt"></i></button>
           </div>
