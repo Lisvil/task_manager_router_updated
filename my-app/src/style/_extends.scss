@@ -103,6 +103,26 @@
               color: $btn_color;
             }
           }
+          span {
+            margin-left: 2px;
+            color: darken($asigned_task_icons_color, 30);
+            font-size: 13px;
+            padding-bottom: 3px;
+          }
+        }
+        .coments_icon {
+          display: flex;
+          align-items: center;
+          i {
+            font-size: 20px;
+            color: $asigned_task_icons_color;
+          }
+          span {
+            margin-left: 2px;
+            color: darken($asigned_task_icons_color, 30);
+            font-size: 15px;
+            padding-bottom: 3px;
+          }
         }
 
 

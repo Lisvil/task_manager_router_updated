@@ -14,7 +14,9 @@
       <div class="user_name">
         {{ userName }}
       </div>
-      <button @click='cleanCookies'><a href='avtoriz.html'>Вийти</a></button>
+      <!-- <button @click='cleanCookies'><a href='avtoriz.html'>Вийти</a></button> -->
+      <button @click='cleanCookies'><router-link to="/">Вийти</router-link></button>
+
     </div>
   </header>
 </template>

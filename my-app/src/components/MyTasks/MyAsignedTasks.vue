@@ -15,17 +15,16 @@
           <!-- <button id="btn_done">Виконано</button>
           <button id="btn_more">Детальніше</button> -->
           <!-- <button class="comment_btn" @click='transferDataToShowForm(item)'><i class="fas fa-comment-dots"></i></button> -->
-          <button class="show_btn" @click='transferDataToShowForm(item); '><i class="fas fa-eye"></i>(1)</button>
+          <button class="show_btn" @click='transferDataToShowForm(item); '><i class="fas fa-eye"></i></button>
+          <div class="coments_icon"><i class="fas fa-comment-dots"></i><span>({{ item.comments.length }})</span></div>
           <button id="done_btn" @click='completeTask(item._id)'><i class="far fa-check-circle"></i></button>
-        </div>
+      </div>
       </div>
     </div>
   </div>
 </template>
 
 <script>
-// import { bus } from '../entry/my_tasks.js';
-// import $ from 'jquery'
 
 export default {
   name:'MyAsignedTasks',

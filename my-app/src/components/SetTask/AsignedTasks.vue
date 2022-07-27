@@ -8,7 +8,6 @@
         <div class="asigned_task__header">
 
           <p>Task status - {{ item.status }}</p>  <!-- task status for tests -->
-
           <div class="asigned_task__complexity">{{ item.complication }}</div>
           <div class="asigned_task__name"><h3>{{ item.title }} </h3></div>
         </div>
@@ -18,7 +17,7 @@
           <div class="asigned_task__asigned-by"><i class="fas fa-user"></i>{{ allUsers[item.performer-1].name}} </div>
 
           <div class="asigned_task__buttons">
-            <button class="comment_btn" @click='transferDataToShowForm(item)'><i class="fas fa-comments"></i>(1)</button>
+            <button class="comment_btn" @click='transferDataToShowForm(item)'><i class="fas fa-comments"></i><span>({{ item.comments.length }})</span></button>
             <button class="edit_btn" @click='transferDataToForm(item)'><i class="fas fa-edit"></i></button>
             <button id="delete_btn" @click='deleteTask(item._id)'><i class="fas fa-trash-alt"></i></button>
           </div>

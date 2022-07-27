@@ -63,14 +63,22 @@ async function addTaskPost(req) {
   try {
     await client.connect();
     const collection = client.db("task_manager").collection("tasks");
-    taskToAdd._id = await collection.countDocuments() + 1;
+    let collectionArr = [];
+    collectionArr = await collection.find({}).toArray();
+    console.log('*********************************************');
+    collectionArr.sort(function(a, b) {
+      return a._id - b._id;
+    });
+    // console.log(collectionArr);
+    // taskToAdd._id = await collection.countDocuments() + 1;
+    taskToAdd._id = collectionArr[collectionArr.length - 1]._id + 1;
     taskToAdd.status = 'new'; // до задачі додається статус "new"
     taskToAdd.isLooked = false; // чи задача переглянута виконвцем
     taskToAdd.isAccepted = false; // чи задача прийнята постановником
     taskToAdd.comments = []; // масив для коментарів
 
     const taskArr = await collection.insertOne(taskToAdd);
-    console.log(taskArr);
+    // console.log(taskArr);
 
   } catch (e) {
     console.error(e);
@@ -89,6 +97,7 @@ async function allTasksSetByMe(userIdObj) { // find all tasks set by me with sta
   try {
     await client.connect();
     const collection = client.db("task_manager").collection("tasks");
+    console.log(collection);
     allTasks = await collection.find({creator: userIdObj.id, isAccepted: false, $or: [ { status: 'new' }, { status: 'finished' } ] }).toArray();
     return allTasks;
 
@@ -381,7 +390,7 @@ app.get('/api/allUsers', (req, res) => {
     console.log('api/allUsers called !!!');
     var allUsers = await getAllUsers();
     res.json(allUsers);
-    console.log(allUsers);
+    // console.log(allUsers);
     console.log('app.get(/api/allUsers - finished');
   }
   callGetAllUsers()
@@ -416,6 +425,8 @@ app.post('/api/createTask', urlencodedParser, function(req, res) {
     await updateUser(userObj);
     await addTaskPost(req);
     res.redirect("/home/set-task") // commented to don`t redirect to page /// test////
+    // res.location.reload();
+
   }
   callAddTaskPost(req)
 });
