@@ -18,7 +18,7 @@ export default {
     }
   },
   components: { ShowTaskForm, MyAsignedTasks}, // MyTasksCommentsForm
-  mounted() {
+  created() {
   },
   methods: {
     transferDataToShowForm(event) {

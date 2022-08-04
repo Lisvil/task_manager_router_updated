@@ -424,7 +424,7 @@ app.post('/api/createTask', urlencodedParser, function(req, res) {
   async function callAddTaskPost(req){
     await updateUser(userObj);
     await addTaskPost(req);
-    res.redirect("/home/set-task") // commented to don`t redirect to page /// test////
+    res.redirect("/") // commented to don`t redirect to page /// test////
     // res.location.reload();
 
   }

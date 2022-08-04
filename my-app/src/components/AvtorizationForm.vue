@@ -27,6 +27,15 @@
       }
 
     },
+    created() {
+      if (localStorage.length != 0){
+        this.$router.push('home'); /// need to rewatch
+        console.log("Success!!");
+      } else {
+        console.log("empty");
+      }
+
+    },
     methods: {
       checkUser: async function () {
         let userInfo = {login: this.userLogin, password: this.userPassword}

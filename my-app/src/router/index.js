@@ -16,12 +16,12 @@ const routes = [
     component: () => import(/* webpackChunkName: "about" */ '../views/HomeView.vue'),
     children: [
       {
-        path: 'my-tasks',
-        component: () => import(/* webpackChunkName: "about" */ '../views/MyTasksView.vue')
+        path: '',
+        component: () => import(/* webpackChunkName: "about" */ '../views/SetTasksView.vue')
       },
       {
-        path: 'set-tasks',
-        component: () => import(/* webpackChunkName: "about" */ '../views/SetTasksView.vue')
+        path: 'my-tasks',
+        component: () => import(/* webpackChunkName: "about" */ '../views/MyTasksView.vue')
       },
       {
         path: 'users',
