@@ -48,40 +48,19 @@
       this.getTasksSetByMe()
     },
     updated: function() {
-      // $(".edit_btn").on('click', function() {
-      //   $("#set_form").addClass("flex");
-      // })
-      // $(".comment_btn").on('click', function() {
-      //   $("#show_form").addClass("flex");
-      //   $(".form").addClass("read_only");
-      // })
       this.complexityColor();
-      console.log(this.finihsedTaskCounter);
+      console.log(this.finishedTaskCounter);
       this.complexityColor();
-      if (parseInt(this.finihsedTaskCounter) > 0) {
-        document.getElementsByClassName("notification_completed_tasks")[0].innerHTML = this.finihsedTaskCounter;
+      if (parseInt(this.finishedTaskCounter) > 0) {
+        document.getElementsByClassName("notification_completed_tasks")[0].innerHTML = this.finishedTaskCounter;
       } else {
         document.getElementsByClassName("notification_completed_tasks")[0].innerHTML = "";
       }
     },
     mounted() {
-      // $("#set_task").on('click', function() {
-      //   $("#set_form").addClass("flex");
-      // })
-      // $(".set_task_form__close_btn").on('click', function(){
-      //   $("#set_form").removeClass("flex");
-      //   $(".form").removeClass("read_only");
-      //   $(".set_task_form__name").attr("disabled", false);
-      // })
-      // $(".show_task_form__close_btn").on('click', function(){
-      //   $("#show_form").removeClass("flex");
-      //   $(".form").removeClass("read_only");
-      //   $(".set_task_form__name").attr("disabled", false);
-      // })
-
     },
     computed: {
-      finihsedTaskCounter: function(){
+      finishedTaskCounter: function(){
         let counter = 0;
         this.tasksSetByMe.forEach((item) => {
           if (item.status === 'finished') {
