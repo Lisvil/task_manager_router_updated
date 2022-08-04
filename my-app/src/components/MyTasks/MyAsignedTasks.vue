@@ -63,6 +63,7 @@ export default {
     } else {
       document.getElementsByClassName("notification_my_tasks")[0].innerHTML = "";
     }
+
   },
   mounted() {
   },
@@ -84,6 +85,14 @@ export default {
       })
     },
     transferDataToShowForm: async function(item) {
+      if(!item.isLooked) {
+        if (this.countNotViewedTasks.length > 0) {
+          document.getElementsByClassName("notification_my_tasks")[0].innerHTML = (this.countNotViewedTasks.length - 1);
+        } else {
+          document.getElementsByClassName("notification_my_tasks")[0].innerHTML = "";
+        }
+      }
+
       item.readOnly = true;
       item.performerWatch = true;
       item.allUsers = this.allUsers;

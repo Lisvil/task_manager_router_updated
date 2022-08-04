@@ -60,11 +60,13 @@
 
   export default {
     name: 'AsidePart',
+
     data() {
       return {
         isAdmin: localStorage.getItem("isAdmin"),
       }
     },
+
     methods: {
       show_menu() {
         document.querySelector(".aside-container").classList.toggle("show_more");
