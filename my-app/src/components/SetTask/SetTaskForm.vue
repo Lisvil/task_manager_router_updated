@@ -55,7 +55,7 @@
         </div>
 
         <!-- <input name="new_employee_workload" :value="checkEmployeeWorkload" style="display: none"> -->
-        <input name="new_employee_workload" :value="checkEmployeeWorkload()" >
+        <input name="new_employee_workload" :value="checkEmployeeWorkload()" style="display: none">
 
 
 
