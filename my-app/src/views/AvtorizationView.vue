@@ -3,7 +3,7 @@
 </template>
 
 <script type="text/javascript">
-  import AvtorizationForm from '../components/AvtorizationForm.vue'
+  import AvtorizationForm from '../components/Avtorization/AvtorizationForm.vue'
 
   export default {
       components: {

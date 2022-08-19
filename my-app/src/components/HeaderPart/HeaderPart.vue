@@ -9,7 +9,7 @@
     </div>
     <div class="user-info">
       <div class="user_photo">
-        <img :src="require(`../assets/images/${this.userPhoto}`)">
+        <img :src="require(`../../assets/images/${this.userPhoto}`)">
       </div>
       <div class="user_name">
         {{ userName }}

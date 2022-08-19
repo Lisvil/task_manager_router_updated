@@ -20,8 +20,8 @@
   }
 }
 .tasks_asign {
-  padding: 40px 70px;
-  padding-top: 20px;
+  padding: 20px 80px;
+  @extend %task_media;
     h2 {
       color: $title_color;
       margin-bottom: 50px;

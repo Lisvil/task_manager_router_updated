@@ -6,7 +6,7 @@
 </template>
 
 <script>
-import ShowTaskForm from '../ShowTaskForm.vue';
+import ShowTaskForm from '../ShowTaskForm/ShowTaskForm.vue';
 import MyAsignedTasks from './MyAsignedTasks.vue';
 
 

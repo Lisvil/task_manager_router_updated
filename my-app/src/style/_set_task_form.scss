@@ -3,7 +3,12 @@
   background: $set_task_form_bg;
   @extend %borders;
   padding: 20px;
-
+  @media (max-width: 1105px) {
+    width: 550px;
+  }
+  @media (max-width: 899px) {
+    width: 400px;
+  }
   form {
     .set_task_form__header {
       @extend %display;
@@ -20,11 +25,20 @@
       padding: 5px;
       margin: 15px 0;
       text-indent: 5px;
+      @media (max-width: 899px) {
+        width: 300px;
+      }
     }
     .set_task_form__details {
       @extend %display;
       width: 500px;
       margin: 10px 0;
+      @media (max-width: 1105px) {
+        width: 450px;
+      }
+      @media (max-width: 899px) {
+        width: 300px;
+      }
       span {
         @extend %labels;
       }
@@ -49,6 +63,12 @@
         @extend %borders;
         border-radius: 7px;
         padding: 5px 10px;
+        @media (max-width: 1105px) {
+          width: 450px;
+        }
+        @media (max-width: 899px) {
+          width: 300px;
+        }
       }
     }
     .set_task_form__attach {
@@ -90,9 +110,12 @@
         border: 1px solid darken(#e1f0d8, 10);
         border-radius: 10px;
         width: 500px;
-        height: 70px;
+        height: 90px;
         background: $notice_bg;
         padding: 10px;
+        @media (max-width: 900px) {
+          height: 158px;
+        }
       }
       #set_task_form__asign_btn {
         @extend %btn;

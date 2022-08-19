@@ -43,7 +43,9 @@
     color: $asigned_task_text_color;
     position: relative;
     margin: 0 80px 50px 0;
-
+    @media (max-width: 1149px) {
+      margin-right: 20px;
+    }
     .asigned_task__header {
 
       // display: flex;
@@ -128,5 +130,14 @@
 
       }
     }
+  }
+}
+
+%task_media {
+  @media (max-width: 1654px) and (min-width: 1458px) {
+    padding: 20px 10px;
+  }
+  @media (max-width: 1149px) {
+
   }
 }

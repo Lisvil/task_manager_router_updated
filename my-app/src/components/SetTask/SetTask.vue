@@ -2,7 +2,6 @@
       <div class="main-part">
         <SetTaskForm v-bind:allUsers="allUsersParent" :editInfo="dataForEditForm"/>
         <ShowTaskForm :info = "infoToShowForm"/>
-        <!-- <SetTaskCommentsForm/> -->
         <div class="tasks_asign">
           <div class="set_task_btn">
             <button id="set_task">Призначити завдання</button>
@@ -14,7 +13,7 @@
 <script>
   import SetTaskForm from './SetTaskForm.vue'
   import AsignedTasks from './AsignedTasks.vue'
-  import ShowTaskForm from '../ShowTaskForm.vue'
+  import ShowTaskForm from '../ShowTaskForm/ShowTaskForm.vue'
 
   export default {
     name: 'SetTask',
@@ -25,7 +24,7 @@
         dataForEditForm: []
       }
     },
-    components: { SetTaskForm, AsignedTasks, ShowTaskForm, }, // SetTaskCommentsForm
+    components: { SetTaskForm, AsignedTasks, ShowTaskForm, },
     created: function() {
       this.showAllUsers()
     },
@@ -34,16 +33,6 @@
       document.querySelector("#set_task").onclick = () => {
         document.querySelector("#set_form").classList.add("flex");
       }
-      // $(".set_task_form__close_btn").on('click', function(){
-      //   $("#set_form").removeClass("flex");
-      //   // $("#set_task_form__asign_btn").text("Призначити");
-      //   $(".form").removeClass("read_only");
-      //   $(".set_task_form__name").attr("disabled", false);
-      // })
-      // $(".edit_btn").on('click', function() {
-      //   $("#set_form").addClass("flex");
-      //   // $("#set_task_form__asign_btn").text("Змінити");
-      // })
     },
     methods: {
       showAllUsers: async function () {

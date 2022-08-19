@@ -642,6 +642,13 @@ app.post('/api/createNews', urlencodedParser, function(req, res) {
 });
 // ----------- create news finished --------- //
 
+if (process.env.NODE_ENV === 'production') {
+  app.use(express.static(__dirname+'/dist'));
+  app.get('*', (req, res) => {
+    res.sendFile(__dirname+'/dist/index.html');
+  })
+}
+
 app.listen(port, () => {
     console.log(`Server listening on the port::${port}`);
 });

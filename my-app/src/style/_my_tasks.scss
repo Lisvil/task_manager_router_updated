@@ -1,5 +1,6 @@
 .my_tasks_part {
   @extend %task;
+  @extend %task_media;
   padding: 40px 40px;
   display: flex;
   flex-wrap: wrap;

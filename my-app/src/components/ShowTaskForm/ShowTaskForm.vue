@@ -30,14 +30,14 @@
           <p>Опис завдання</p>
           <textarea name="taskDescription" rows="8" cols="80" v-model='taskDescription'></textarea>
         </div>
-        <div class="set_task_form__attach">
+        <!-- <div class="set_task_form__attach">
           <span>Прикріпити</span>
           <div class="set_task_form__attachent">
             <i class="fas fa-paperclip"></i>
               <input type="file" name="attachment">
 
           </div>
-        </div>
+        </div> -->
         <div class="set_task_form__performer" v-if='!info.performerWatch'>
           <span >Виконавець</span>
           <select name="performer" id="performer" v-model='taskPerformer'>
@@ -61,7 +61,7 @@
 </div>
 </template>
 <script>
-  import MyTasksCommentsForm from './TaskCommentsForm.vue';
+  import MyTasksCommentsForm from '../TaskCommentsForm/TaskCommentsForm.vue';
   // import $ from 'jquery'
 
   export default {

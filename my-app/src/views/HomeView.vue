@@ -6,13 +6,11 @@
       <router-view/>
     </div>
   </div>
-
 </template>
-
 <script>
 // @ is an alias to /src
-import HeaderPart from '../components/HeaderPart.vue'
-import AsidePart from '../components/AsidePart.vue'
+import HeaderPart from '../components/HeaderPart/HeaderPart.vue'
+import AsidePart from '../components/AsidePanel/AsidePart.vue'
 
 export default {
   name: 'HomeView',

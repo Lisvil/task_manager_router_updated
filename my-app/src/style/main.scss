@@ -36,8 +36,11 @@ body {
     position: relative;
 
     .info-part {
-      width: 80%;
+      width: 95%;
       padding: 20px 50px;
+      @media (max-width: 1654px) {
+        padding: 20px 30px;
+      }
     }
   }
 
@@ -51,7 +54,6 @@ body {
 .users {
 
   display: flex;
-  // justify-content: space-around;
   flex-wrap: wrap;
 }
 .flex{

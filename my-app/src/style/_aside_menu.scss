@@ -5,6 +5,9 @@
   top: 106px;
   width: 6%;
   transition: all 1s ease;
+  @media (max-width: 1000px) {
+    width: 8%;
+  }
 
 }
 
@@ -95,6 +98,9 @@ aside {
 }
 .show_more {
   width: 10%;
+  @media (max-width: 930px) {
+    width: 15%;
+  }
   #aside_menu_fixed {
     p {
       opacity: 100;

@@ -31,14 +31,14 @@
           <p>Опис завдання</p>
           <textarea name="taskDescription" rows="8" cols="80" v-model='taskObj.taskDescription'></textarea>
         </div>
-        <div class="set_task_form__attach">
+        <!-- <div class="set_task_form__attach">
           <span>Вкладення</span>
           <div class="set_task_form__attachent">
             <i class="fas fa-paperclip"></i>
               <input type="file" name="attachment">
 
           </div>
-        </div>
+        </div> -->
         <div class="set_task_form__performer">
           <span>Виконавець</span>
           <select name="performer" id="performer" v-model='taskObj.taskPerformer'>
@@ -49,9 +49,6 @@
             <div v-if="checkEmployeeWorkload() > 20" class="asign_notice">Завдання такої складності перенавантажить працівника, і може бути виконане не вчасно. <p> Для виконання даного завдання Ви можете обрати іншого. Наприклад - {{ getAltertnativeUser }}</p></div>
             <button id="set_task_form__asign_btn" v-if='!edit'>Призначити</button>
             <button id="set_task_form__asign_btn" v-else type="button" @click='editTask' onclick="event.preventDefault()">Редагувати</button>
-            <div class="">
-              {{ edit }}
-            </div>
         </div>
 
         <!-- <input name="new_employee_workload" :value="checkEmployeeWorkload" style="display: none"> -->

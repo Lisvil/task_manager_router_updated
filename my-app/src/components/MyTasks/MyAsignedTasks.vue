@@ -12,9 +12,6 @@
           <div class="asigned_task__deadline"><i class="fas fa-calendar-week"></i> {{ item.deadline}}</div>
           <div class="asigned_task__asigned-by"><i class="fas fa-user"></i>{{ allUsers[item.creator-1].name }}</div>
         <div class="asigned_task__buttons">
-          <!-- <button id="btn_done">Виконано</button>
-          <button id="btn_more">Детальніше</button> -->
-          <!-- <button class="comment_btn" @click='transferDataToShowForm(item)'><i class="fas fa-comment-dots"></i></button> -->
           <button class="show_btn" @click='transferDataToShowForm(item); '><i class="fas fa-eye"></i></button>
           <div class="coments_icon"><i class="fas fa-comment-dots"></i><span>({{ item.comments.length }})</span></div>
           <button id="done_btn" @click='completeTask(item._id)'><i class="far fa-check-circle"></i></button>
@@ -48,15 +45,6 @@ export default {
         document.querySelector(".set_task_form__name").setAttribute("disabled", "disabled");
       }
     });
-/// commented comment btn
-    // let commentBtnsArr = document.querySelectorAll('.comment_btn');
-    // commentBtnsArr.forEach((item) => {
-    //   item.onclick = () => {
-    //     document.querySelector("#show_form").classList.add("flex");
-    //     document.querySelector(".form").classList.add("read_only");
-    //     document.querySelector(".set_task_form__name").setAttribute("disabled", "disabled");
-    //   }
-    // });
     this.complexityColor();
     if (this.countNotViewedTasks.length > 0) {
       document.getElementsByClassName("notification_my_tasks")[0].innerHTML = this.countNotViewedTasks.length;
@@ -111,11 +99,6 @@ export default {
 
     },
 
-
-    // transferDataToCommentForm: function(item) {
-    //   item.readOnly = true;
-    //   bus.$emit('commentBtnClick', item, this.edit);
-    // },
     completeTask: async function(itemId){
       console.log('complete task. Task id - ' + itemId);
       let taskToUpdate = { "_id": itemId}
