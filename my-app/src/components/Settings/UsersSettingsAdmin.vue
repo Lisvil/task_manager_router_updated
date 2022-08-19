@@ -2,7 +2,7 @@
   <div class="settings_users">
     <div class="settings_user_card" v-for="user in usersAdmin" v-bind:key="user._id">
       <div class="settings_users__photo">
-        <img :src="require(`../../assets/images/${user.image}`)">
+        <img :src="require(`../../assets/images/${user.image}`)" v-if="user.hasOwnProperty('image')">
       </div>
       <div class="settings_users__info">
         <div class="settings_user_name">

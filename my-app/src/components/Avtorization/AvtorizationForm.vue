@@ -12,6 +12,12 @@
         <!-- <router-link :to="{name: 'home', params: {id: correctLogin }}"><input type="button" id = "but" value="Вхід" @click='checkUser'></router-link> -->
       </form>
     </div>
+    <div class="users_login_pass">
+      <p>Login: liliasolohub, pass: 12345</p>
+      <p>Login: ihor, pass: 12345</p>
+      <p>Login: taras, pass: 9s5d4fqr</p>
+      <p>Login: daria, pass: 1s9d3LPc</p>
+    </div>
   </div>
 </template>
 <script>

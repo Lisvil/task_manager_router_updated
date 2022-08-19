@@ -3,15 +3,12 @@
     margin: 30px;
     border: 1px solid #d8dce3;
     border-radius: 10px;
-    width: 27%;
+    width: 450px;
     display: flex;
     align-items: flex-start;
     padding: 20px;
     position: relative;
     background: #f5f7fa;
-    @media (max-width: 1789px) {
-      width: 35%;
-    }
 
     .user_card__main_info {
       text-align: center;

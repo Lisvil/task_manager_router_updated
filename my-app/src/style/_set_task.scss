@@ -6,7 +6,6 @@
   top: 0px;
   left: 0;
   z-index: 3;
-  display: flex;
   justify-content: center;
   align-items: center;
   display: none;
@@ -22,6 +21,9 @@
 .tasks_asign {
   padding: 20px 80px;
   @extend %task_media;
+  @media (max-width: 1610px) and (min-width: 1458px) {
+    padding: 20px 40px;
+  }
     h2 {
       color: $title_color;
       margin-bottom: 50px;
@@ -33,8 +35,6 @@
 }
 .asigned_tasks {
   display: flex;
-  // border: 1px solid red;
-  // justify-content: space-between;
   flex-wrap: wrap;
   @extend %task;
   }

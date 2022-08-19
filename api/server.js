@@ -398,16 +398,16 @@ app.get('/api/allUsers', (req, res) => {
 
 // receives info for POST from AddUserForm.vue
 // upload.single('avatar') - uploads image using multer
-app.post('/api/contacts', upload.single('avatar'), urlencodedParser, function(req, res) {
+app.post('/api/contacts',  urlencodedParser, function(req, res) {
   if (!req.body) return res.sendStatus(400);
   console.log(req.body);
-  console.log(req.file);
+  // console.log(req.file);
   // console.log(req.body.image = req.file.originalname);
   // console.log(req.body);
-  req.body.image = req.file.originalname
+  // req.body.image = req.file.originalname  //
   req.body.employee_workload = parseInt(req.body.employee_workload);
   addUserPost(req);
-  res.redirect("/settings.html");
+  res.redirect("/");
 });
 
 // receives info for POST from TaskForm.vue

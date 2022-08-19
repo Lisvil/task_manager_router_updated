@@ -28,7 +28,7 @@ async function findUsers(client){ // get all users drom DB
   const collection = client.db("task_manager").collection("users");
   const usersArr = await collection.find({}).toArray();
   const numberOfUsers = await collection.countDocuments();
-  console.log(usersArr);
+  // console.log(usersArr);
   console.log('Number of users - ' + numberOfUsers);
   console.log('Next user ID = ' + (numberOfUsers + 1));
 }
@@ -97,7 +97,7 @@ async function allTasksSetByMe(userIdObj) { // find all tasks set by me with sta
   try {
     await client.connect();
     const collection = client.db("task_manager").collection("tasks");
-    console.log(collection);
+    // console.log(collection);
     allTasks = await collection.find({creator: userIdObj.id, isAccepted: false, $or: [ { status: 'new' }, { status: 'finished' } ] }).toArray();
     return allTasks;
 
@@ -135,7 +135,7 @@ async function updateTask(taskObj) {
   const client = new MongoClient(uri);
 
   console.log('Log from updateTask. Inc obj');
-  console.log(taskObj);
+  // console.log(taskObj);
 
   try {
     await client.connect();
@@ -157,7 +157,7 @@ async function setTaskFinished(taskObj) {
   const client = new MongoClient(uri);
 
   console.log('Log from updateTask. Inc obj');
-  console.log(taskObj);
+  // console.log(taskObj);
 
   try {
     await client.connect();
@@ -178,7 +178,7 @@ async function setTaskIsLooked(taskObj) {
   const client = new MongoClient(uri);
 
   console.log('Log from updateTask. Inc obj');
-  console.log(taskObj);
+  // console.log(taskObj);
 
   try {
     await client.connect();
@@ -199,7 +199,7 @@ async function setTaskIsAccepted(taskObj) {
   const client = new MongoClient(uri);
 
   console.log('Log from updateTask. Inc obj');
-  console.log(taskObj);
+  // console.log(taskObj);
 
   try {
     await client.connect();
@@ -220,7 +220,7 @@ async function addComentToTask(taskObj) {
   const client = new MongoClient(uri);
 
   console.log('Log from addComentToTask. Inc obj');
-  console.log(taskObj);
+  // console.log(taskObj);
 
   try {
     await client.connect();
@@ -241,7 +241,7 @@ async function deleteTask(taskObj) {
   const client = new MongoClient(uri);
 
   console.log('Log from delete task. Inc obj');
-  console.log(taskObj);
+  // console.log(taskObj);
 
   try {
     await client.connect();
@@ -398,16 +398,16 @@ app.get('/api/allUsers', (req, res) => {
 
 // receives info for POST from AddUserForm.vue
 // upload.single('avatar') - uploads image using multer
-app.post('/api/contacts', upload.single('avatar'), urlencodedParser, function(req, res) {
+app.post('/api/contacts',  urlencodedParser, function(req, res) {
   if (!req.body) return res.sendStatus(400);
   console.log(req.body);
-  console.log(req.file);
+  // console.log(req.file);
   // console.log(req.body.image = req.file.originalname);
   // console.log(req.body);
-  req.body.image = req.file.originalname
+  // req.body.image = req.file.originalname  //
   req.body.employee_workload = parseInt(req.body.employee_workload);
   addUserPost(req);
-  res.redirect("/settings.html");
+  res.redirect("/");
 });
 
 // receives info for POST from TaskForm.vue
@@ -439,7 +439,7 @@ app.post('/api/tasksSetByMe', (req, res) => {
     console.log(req.body);
     var tasksSetByMe = await allTasksSetByMe(req.body);
     res.json(tasksSetByMe);
-    console.log(tasksSetByMe);
+    // console.log(tasksSetByMe);
     console.log('/api/tasksSetByMe - finished');
   }
   callTasksSetByMe()
@@ -548,7 +548,7 @@ app.post('/api/myTasks', (req, res) => {
     var myTasks = await allMyTasks(req.body); //await getAllMyTasks();
     res.json(myTasks);
 
-    console.log(myTasks);
+    // console.log(myTasks);
     console.log('api/myTasks called - finished');
   }
   callGetMyTasks()

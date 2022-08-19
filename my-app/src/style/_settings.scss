@@ -1,6 +1,7 @@
 .settings{
   display: flex;
   padding: 30px;
+
 }
 
 .settings_add_user {
@@ -42,18 +43,28 @@
   margin-left: 150px;
   display: flex;
   flex-wrap: wrap;
-  width: 51%;
+  // width: 51%;
+  @media (max-width: 1440px){
+    margin-left: 70px;
+  }
+  @media (max-width: 1355px) {
+    justify-content: center;
+    .settings_user_card {
+      width: 300px;
+    }
+  }
 
   .settings_user_card {
     display: flex;
     align-items: center;
     border: 1px solid #ebebeb;
     border-radius: 10px;
-    padding: 10px 20px;
+    padding: 0px 10px;
     background: #fafafa;
     margin: 0 50px 20px 0;
     height: 130px;
     width: 280px;
+
     .settings_users__photo {
       width: 100px;
       height: 100px;
