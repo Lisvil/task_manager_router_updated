@@ -3,7 +3,7 @@
     <div class="user_card" v-for="user in usersAdmin" v-bind:key="user._id">
       <div class="user_card__main_info">
         <div class="user_card__photo">
-          <img :src="require(`../../assets/images/${user.image}`)">
+          <img :src="require(`../../assets/images/${user.image}`)" v-if="user.hasOwnProperty('image')">
         </div>
         <div class="user_card__user_name">{{ user.name }} {{ user.surname}}</div>
         <!-- <div class="user_card__tasks_statistic">Виконано завдань - 10</div> -->
