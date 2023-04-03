@@ -6,7 +6,8 @@ module.exports = {
    devServer: {
       proxy: {
         '^/api': {
-          target: 'http://localhost:3080',
+          // target: 'http://localhost:3080',
+          target: 'https://task-manager-lzi3.onrender.com',
           changeOrigin: true
         },
       }
