@@ -10,8 +10,26 @@
 
 
   #done_btn {
-    margin-left: 65%;
+    // margin-left: 65%;
     i {font-size: 30px}
+  }
+}
+.buttons_container {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-left: auto;
+  .button_start {
+    color: #fff;
+    background: silver;
+    background: $asigned_task_icons_color;
+    padding: 2px 10px;
+    &:hover {
+      background: $btn_color;
+    }
+  }
+  #done_btn{
+    margin-right: 0px; 
   }
 }
 .new_task {

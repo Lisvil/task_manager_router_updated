@@ -29,8 +29,8 @@ async function findUsers(client){ // get all users drom DB
   const usersArr = await collection.find({}).toArray();
   const numberOfUsers = await collection.countDocuments();
   // console.log(usersArr);
-  console.log('Number of users - ' + numberOfUsers);
-  console.log('Next user ID = ' + (numberOfUsers + 1));
+  // console.log('Number of users - ' + numberOfUsers);
+  // console.log('Next user ID = ' + (numberOfUsers + 1));
 }
 
 async function addUserPost(req) { //insert user from form from AddUserForm.vue
@@ -44,7 +44,7 @@ async function addUserPost(req) { //insert user from form from AddUserForm.vue
     //user ID based on number of docs in collection "users"
     userToAdd._id = await collection.countDocuments() + 1;
     const usersArr = await collection.insertOne(userToAdd);
-    console.log(usersArr);
+    // console.log(usersArr);
 
   } catch (e) {
     console.error(e);
@@ -55,30 +55,27 @@ async function addUserPost(req) { //insert user from form from AddUserForm.vue
 }
 
 //---------- запрос в базу на додавання задачі початок ----------//
-async function addTaskPost(req) {
+async function addTaskPost(task) {
   const uri = "mongodb+srv://admin:admin@cluster0.uvxe1.mongodb.net/task_manager?retryWrites=true&w=majority";
   const client = new MongoClient(uri);
-  const taskToAdd = req.body;
+  const taskToAdd = task;
 
   try {
     await client.connect();
     const collection = client.db("task_manager").collection("tasks");
     let collectionArr = [];
     collectionArr = await collection.find({}).toArray();
-    console.log('*********************************************');
     collectionArr.sort(function(a, b) {
       return a._id - b._id;
     });
-    // console.log(collectionArr);
-    // taskToAdd._id = await collection.countDocuments() + 1;
     taskToAdd._id = collectionArr[collectionArr.length - 1]._id + 1;
-    taskToAdd.status = 'new'; // до задачі додається статус "new"
+    taskToAdd.status = 'New'; // до задачі додається статус "new"
     taskToAdd.isLooked = false; // чи задача переглянута виконвцем
     taskToAdd.isAccepted = false; // чи задача прийнята постановником
     taskToAdd.comments = []; // масив для коментарів
 
     const taskArr = await collection.insertOne(taskToAdd);
-    // console.log(taskArr);
+
 
   } catch (e) {
     console.error(e);
@@ -97,8 +94,8 @@ async function allTasksSetByMe(userIdObj) { // find all tasks set by me with sta
   try {
     await client.connect();
     const collection = client.db("task_manager").collection("tasks");
-    // console.log(collection);
-    allTasks = await collection.find({creator: userIdObj.id, isAccepted: false, $or: [ { status: 'new' }, { status: 'finished' } ] }).toArray();
+    // allTasks = await collection.find({creator: userIdObj.id, isAccepted: false, $or: [ { status: 'New' }, { status: 'Finished' } ] }).toArray();
+    allTasks = await collection.find({creator: userIdObj.id, isAccepted: false}).toArray();
     return allTasks;
 
   } catch (e) {
@@ -127,6 +124,22 @@ async function getAllUsers() {
     await client.close();
   }
 }
+async function getUser(userId) {
+  const uri = "mongodb+srv://admin:admin@cluster0.uvxe1.mongodb.net/task_manager?retryWrites=true&w=majority";
+  const client = new MongoClient(uri);
+  let user = [];
+  try {
+    await client.connect();
+    const collection = client.db("task_manager").collection("users");
+    user = await collection.find({_id: userId}).toArray();
+    return user;
+
+  } catch (e) {
+    console.error(e);
+  } finally {
+    await client.close();
+  }
+}
 //---------- getAllUsers finihsed ------------//
 
 // ----------- task update start ---------//
@@ -135,12 +148,11 @@ async function updateTask(taskObj) {
   const client = new MongoClient(uri);
 
   console.log('Log from updateTask. Inc obj');
-  // console.log(taskObj);
 
   try {
     await client.connect();
     const collection = client.db("task_manager").collection("tasks");
-    await collection.updateOne({_id: taskObj.taskId}, {$set: {title: taskObj.taskTitle, deadline: taskObj.taskDeadline, complication: taskObj.taskComplexity, taskDescription: taskObj.taskDescription, performer: taskObj.taskPerformer}});
+    await collection.updateOne({_id: taskObj._id}, {$set: {title: taskObj.title, deadline: taskObj.deadline, complication: taskObj.complication, taskDescription: taskObj.taskDescription, performer: taskObj.performer, status: taskObj.status}});
 
   } catch (e) {
     console.error(e);
@@ -162,7 +174,24 @@ async function setTaskFinished(taskObj) {
   try {
     await client.connect();
     const collection = client.db("task_manager").collection("tasks");
-    await collection.updateOne({_id: taskObj._id}, {$set: {status: "finished"}});
+    await collection.updateOne({_id: taskObj._id}, {$set: {status: "Finished"}});
+
+  } catch (e) {
+    console.error(e);
+  } finally {
+    await client.close();
+  }
+}
+async function changeTaskStatus(taskObj) {
+  const uri = "mongodb+srv://admin:admin@cluster0.uvxe1.mongodb.net/task_manager?retryWrites=true&w=majority";
+  const client = new MongoClient(uri);
+
+  console.log('Log from changeTaskStatus');
+  // console.log(taskObj);
+  try {
+    await client.connect();
+    const collection = client.db("task_manager").collection("tasks");
+    await collection.updateOne({_id: taskObj._id}, {$set: {status: taskObj.status, isLooked: true}});
 
   } catch (e) {
     console.error(e);
@@ -241,8 +270,6 @@ async function deleteTask(taskObj) {
   const client = new MongoClient(uri);
 
   console.log('Log from delete task. Inc obj');
-  // console.log(taskObj);
-
   try {
     await client.connect();
     const collection = client.db("task_manager").collection("tasks");
@@ -267,7 +294,10 @@ async function allMyTasks(userIdObj) {
   try {
     await client.connect();
     const collection = client.db("task_manager").collection("tasks");
-    allTasks = await collection.find({performer: userIdObj.id, status: 'new'}).toArray();
+    allTasks = await collection.find({performer: userIdObj.id}).toArray();
+    // allTasks = await collection.find({performer: userIdObj.id, status: 'New'}).toArray();
+
+
     return allTasks;
 
   } catch (e) {
@@ -373,7 +403,7 @@ async function addNews(req) {
     const collection = client.db("task_manager").collection("news");
     req.body._id = await collection.countDocuments() + 1;
     await collection.insertOne(req.body);
-
+    return req.body._id
   } catch (e) {
     console.error(e);
   } finally {
@@ -382,6 +412,46 @@ async function addNews(req) {
 }
 //---------- add news finished ----------//
 
+//---------get kanban ------------//
+async function getKanban() {
+  const uri = "mongodb+srv://admin:admin@cluster0.uvxe1.mongodb.net/task_manager?retryWrites=true&w=majority";
+  const client = new MongoClient(uri);
+  let kanban = [];
+
+  try {
+    await client.connect();
+    const collection = client.db("task_manager").collection("kanban");
+    kanban = await collection.find({}).toArray();
+    return kanban[0];
+
+  } catch (e) {
+    console.error(e);
+  } finally {
+    await client.close();
+  }
+}
+//-------------------------------------//
+//--------edit kanban ----------------//
+async function editKanban(kanban) {
+  const uri = "mongodb+srv://admin:admin@cluster0.uvxe1.mongodb.net/task_manager?retryWrites=true&w=majority";
+  const client = new MongoClient(uri);
+
+  console.log('Log from edit kanban');
+
+
+  try {
+    await client.connect();
+    const collection = client.db("task_manager").collection("kanban");
+    await collection.updateOne({_id: kanban.id}, {$set: {statuses: kanban.statuses}});
+
+  } catch (e) {
+    console.error(e);
+  } finally {
+    await client.close();
+  }
+
+}
+//-------------------//
 //-------------DB connection END ------------------//
 
 
@@ -394,6 +464,17 @@ app.get('/api/allUsers', (req, res) => {
     console.log('app.get(/api/allUsers - finished');
   }
   callGetAllUsers()
+});
+
+app.post('/api/getUser', (req, res) => {
+  async function callGetUser(userId){
+    console.log('api/getUser called !!!');
+    var user = await getUser(userId);
+    res.json(user);
+    // console.log(allUsers);
+    console.log('app.get(/api/getUser - finished');
+  }
+  callGetUser(req.body.id)
 });
 
 // receives info for POST from AddUserForm.vue
@@ -414,21 +495,27 @@ app.post('/api/contacts',  urlencodedParser, function(req, res) {
 app.post('/api/createTask', urlencodedParser, function(req, res) {
   if (!req.body) return res.sendStatus(400);
   console.log(req.body);
-
-  let userObj = {'id': parseInt(req.body.performer), 'new_employee_workload': req.body.new_employee_workload}
-  delete req.body.new_employee_workload
+  if (req.body.workload) {
+    var userObj = {'id': parseInt(req.body.task.performer), 'new_employee_workload': req.body.workload}
+  }
+  // let userObj = {'id': parseInt(req.body.performer), 'new_employee_workload': req.body.new_employee_workload}
+  // delete req.body.new_employee_workload
 
   console.log(req.body);
   console.log(userObj);
 
-  async function callAddTaskPost(req){
-    await updateUser(userObj);
-    await addTaskPost(req);
-    res.redirect("/") // commented to don`t redirect to page /// test////
+  async function callAddTaskPost(task){
+    console.log('callAddTaskPost')
+    if (req.body.workload) {
+      await updateUser(userObj);
+    }
+    await addTaskPost(task);
     // res.location.reload();
-
+    res.sendStatus(200);
   }
-  callAddTaskPost(req)
+  // callAddTaskPost(req)
+  callAddTaskPost(req.body.task)
+
 });
 
 // get all tasks from collection //
@@ -439,7 +526,6 @@ app.post('/api/tasksSetByMe', (req, res) => {
     console.log(req.body);
     var tasksSetByMe = await allTasksSetByMe(req.body);
     res.json(tasksSetByMe);
-    // console.log(tasksSetByMe);
     console.log('/api/tasksSetByMe - finished');
   }
   callTasksSetByMe()
@@ -448,37 +534,38 @@ app.post('/api/tasksSetByMe', (req, res) => {
 // ------------ task update start ---------------//
 app.post('/api/updateTask', urlencodedParser, function(req, res) {
   if (!req.body) return res.sendStatus(400);
-  console.log('/api/updateTask receiced');
-  console.log(req.body);
-  let userObj = req.body.user;
-  console.log(userObj);
-  delete req.body.user;
+  let userObj = {}
+  if (req.body.user) {
+    userObj = req.body.user;
+    delete req.body.user;
+  }
   if (req.body.userBeforeEdit) {
     var userBeforeEdit = req.body.userBeforeEdit;
-    console.log(userBeforeEdit);
     delete req.body.userBeforeEdit;
   }
   let taskObj = req.body;
 
-  async function callUpdateTask(taskObj, userObj, userBeforeEdit = 'undifined'){
+  async function callUpdateTask(taskObj, userObj = 'undifined', userBeforeEdit = 'undifined'){
     console.log('api/updateTask called !!!');
-    await updateUser(userObj);
-    if (userBeforeEdit !== 'undifined') {
-      try {
-        await updateUser(userBeforeEdit);
-      } catch (e) {
-        console.error(e);
+    if (userObj) {
+      await updateUser(userObj);
+      if (userBeforeEdit !== 'undifined') {
+        try {
+          await updateUser(userBeforeEdit);
+        } catch (e) {
+          console.error(e);
+        }
       }
     }
     await updateTask(taskObj);
     res.sendStatus(200);
-    console.log('/api/updateTask - finished');
   }
-  if (userBeforeEdit) {
-    callUpdateTask(taskObj, userObj, userBeforeEdit)
-  } else {
-    callUpdateTask(taskObj, userObj)
-  }
+  // if (userBeforeEdit) {
+  //   callUpdateTask(taskObj, userObj, userBeforeEdit)
+  // } else {
+  //   callUpdateTask(taskObj, userObj)
+  // }
+  callUpdateTask(taskObj)
 
 });
 // ------------ task update end ---------------//
@@ -486,35 +573,41 @@ app.post('/api/updateTask', urlencodedParser, function(req, res) {
 // ------------ set task finished start ---------------//
 app.post('/api/finishTask', urlencodedParser, function(req, res) {
   if (!req.body) return res.sendStatus(400);
-  console.log('/api/finishTask receiced');
-  console.log(req.body);
-  console.log(req.body._id);
-
   async function callSetTaskFinished(reqBody){
-    console.log('api/finishTask called !!!');
-
     await setTaskFinished(reqBody);
+    if (req.body.userObj) {
+      await updateUser(req.body.userObj);
+    }
     res.sendStatus(200);
-    console.log('/api/updateTask - finished');
   }
-  callSetTaskFinished(req.body)
+  callSetTaskFinished(req.body.taskId)
 
 });
 // ------------ set task finished end ---------------//
+app.post('/api/changeStatus', urlencodedParser, function(req, res) {
+  if (!req.body) return res.sendStatus(400);
+  async function callChangeTaskStatus(taskObj){
+    await changeTaskStatus(taskObj);
+    // await updateUser(req.body.userObj);
+    res.sendStatus(200);
+  }
+  callChangeTaskStatus(req.body.taskObj)
+
+});
 
 // ------------ set task isLooked start ---------------//
 app.post('/api/markAsLooked', urlencodedParser, function(req, res) {
   if (!req.body) return res.sendStatus(400);
-  console.log('/api/markAsLooked receiced');
-  console.log(req.body);
-  console.log(req.body._id);
+  // console.log('/api/markAsLooked receiced');
+  // console.log(req.body);
+  // console.log(req.body._id);
 
   async function callSetTaskIsLooked(reqBody){
-    console.log('api/finishTask called !!!');
+    // console.log('api/finishTask called !!!');
 
     await setTaskIsLooked(reqBody);
     res.sendStatus(200);
-    console.log('/api/updateTask - finished');
+    // console.log('/api/updateTask - finished');
   }
   callSetTaskIsLooked(req.body)
 
@@ -524,16 +617,16 @@ app.post('/api/markAsLooked', urlencodedParser, function(req, res) {
 // ------------ set task isAccepted start ---------------//
 app.post('/api/acceptTask', urlencodedParser, function(req, res) {
   if (!req.body) return res.sendStatus(400);
-  console.log('/api/acceptTask receiced');
-  console.log(req.body);
-  console.log(req.body._id);
+  // console.log('/api/acceptTask receiced');
+  // console.log(req.body);
+  // console.log(req.body._id);
 
   async function callSetTaskIsAccepted(reqBody){
-    console.log('api/finishTask called !!!');
+    // console.log('api/finishTask called !!!');
 
     await setTaskIsAccepted(reqBody);
     res.sendStatus(200);
-    console.log('/api/updateTask - finished');
+    // console.log('/api/updateTask - finished');
   }
   callSetTaskIsAccepted(req.body)
 
@@ -543,13 +636,13 @@ app.post('/api/acceptTask', urlencodedParser, function(req, res) {
 // ---------- get all my tasks started----------//
 app.post('/api/myTasks', (req, res) => {
   async function callGetMyTasks(){
-    console.log('api/myTasks called !!!');
-    console.log(req.body);
+    // console.log('api/myTasks called !!!');
+    // console.log(req.body);
     var myTasks = await allMyTasks(req.body); //await getAllMyTasks();
     res.json(myTasks);
 
     // console.log(myTasks);
-    console.log('api/myTasks called - finished');
+    // console.log('api/myTasks called - finished');
   }
   callGetMyTasks()
 });
@@ -560,7 +653,12 @@ app.post('/api/deleteTask', (req, res) => {
   async function callDeleteTask(){
     console.log('api/deleteTask - called !!!');
     console.log(req.body);
-    await deleteTask(req.body);
+
+    await deleteTask(req.body.taskId);
+    console.log('deleteTask')
+    if (req.body.userObj) {
+      await updateUser(req.body.userObj);
+    }
     res.sendStatus(200);
     console.log('api/deleteTask - finished !!!');
   }
@@ -571,15 +669,15 @@ app.post('/api/deleteTask', (req, res) => {
 // ---------- add comment to task started -------------//
 app.post('/api/addComment', urlencodedParser, function(req, res) {
   if (!req.body) return res.sendStatus(400);
-  console.log('/api/addComment receiced');
-  console.log(req.body);
+  // console.log('/api/addComment receiced');
+  // console.log(req.body);
 
   async function calladdComentToTask(reqBody){
-    console.log('api/addComentToTask called !!!');
+    // console.log('api/addComentToTask called !!!');
 
     await addComentToTask(reqBody);
     res.sendStatus(200);
-    console.log('/api/addComentToTask - finished');
+    // console.log('/api/addComentToTask - finished');
   }
   calladdComentToTask(req.body)
 
@@ -589,15 +687,15 @@ app.post('/api/addComment', urlencodedParser, function(req, res) {
 //------ check user while autorization -------//
 app.post('/api/checkUser', urlencodedParser, function(req, res) {
   if (!req.body) return res.sendStatus(400);
-  console.log('/api/checkUser started');
-  console.log(req.body);
+  // console.log('/api/checkUser started');
+  // console.log(req.body);
 
   async function callCheckUser(reqBody){
-    console.log('api/checkUser called !!!');
+    // console.log('api/checkUser called !!!');
     var checkedUser = await checkUser(reqBody);
     res.json(checkedUser);
-    console.log(checkedUser);
-    console.log('/api/checkUser - finished');
+    // console.log(checkedUser);
+    // console.log('/api/checkUser - finished');
   }
   callCheckUser(req.body)
 });
@@ -619,10 +717,10 @@ app.post('/api/deleteUser', (req, res) => {
 // ------- get allNews started ------------//
 app.get('/api/allNews', (req, res) => {
   async function callGetAllNews(){
-    console.log('api/allNews called !!!');
+    // console.log('api/allNews called !!!');
     var allNews = await getAllNews();
     res.json(allNews);
-    console.log('app.get(/api/allNews - finished');
+    // console.log('app.get(/api/allNews - finished');
   }
   callGetAllNews()
 });
@@ -635,8 +733,9 @@ app.post('/api/createNews', urlencodedParser, function(req, res) {
   console.log(req.body);
 
   async function callAddNews(req){
-    await addNews(req);
-    res.redirect("/news.html");
+    let news = await addNews(req);
+    res.json(news);
+    // res.sendStatus(200)
   }
   callAddNews(req)
 });
@@ -644,4 +743,30 @@ app.post('/api/createNews', urlencodedParser, function(req, res) {
 
 app.listen(port, () => {
     console.log(`Server listening on the port::${port}`);
+});
+
+
+app.get('/api/kanban', (req, res) => {
+  async function callGetKanban(){
+    // console.log('api/allNews called !!!');
+    const kanban = await getKanban();
+    res.json(kanban);
+    // console.log('app.get(/api/allNews - finished');
+  }
+  callGetKanban()
+});
+app.post('/api/changeKanban', urlencodedParser, function(req, res) {
+  if (!req.body) return res.sendStatus(400);
+  let kanbanObj = req.body
+  kanbanObj.statuses.forEach(el => {
+    delete el.items 
+  });
+  console.log(kanbanObj)
+  async function callChangeKanban(kanban){
+    await editKanban(kanban);
+    // await updateUser(req.body.userObj);
+    res.sendStatus(200);
+  }
+  callChangeKanban(kanbanObj)
+
 });

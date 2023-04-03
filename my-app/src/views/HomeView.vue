@@ -68,7 +68,7 @@ export default {
     finihsedTaskCounter: function(){ /// for finished tasks setted by me
       let counter = 0;
       this.asignTasksForNotification.forEach((item) => {
-        if (item.status === 'finished') {
+        if (item.status === 'Finished') {
           counter ++
         }
       });

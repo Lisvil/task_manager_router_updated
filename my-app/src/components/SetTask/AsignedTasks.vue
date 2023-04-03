@@ -1,55 +1,56 @@
 <template>
-  <div class="asigned_tasks_part">
+  <div v-if="!loading" class="asigned_tasks_part" >
     <h2>Призначені завдання</h2>
     <!-- <h2>Finished task - {{ finihsedTaskCounter }} </h2> finished task counter -->
     <div class="asigned_tasks">
 
-      <div class="asigned_task" v-for="item in tasksSetByMe" v-bind:key="item._id" v-bind:class="{'finished': item.status == 'finished'}">
-        <div class="asigned_task__header">
-
-          <p>Task status - {{ item.status }}</p>  <!-- task status for tests -->
-          <div class="asigned_task__complexity">{{ item.complication }}</div>
-          <div class="asigned_task__name"><h3>{{ item.title }} </h3></div>
-        </div>
-        <div class="asigned_task__body">
-          <p class="asigned_task_text">{{ item.taskDescription }}</p>
-          <div class="asigned_task__deadline"><i class="fas fa-calendar-week"></i> {{ item.deadline}}</div>
-          <div class="asigned_task__asigned-by"><i class="fas fa-user"></i>{{ allUsers[item.performer-1].name}} </div>
-
-          <div class="asigned_task__buttons">
-            <button class="comment_btn" @click='transferDataToShowForm(item)'><i class="fas fa-comments"></i><span>({{ item.comments.length }})</span></button>
-            <button class="edit_btn" @click='transferDataToForm(item)'><i class="fas fa-edit"></i></button>
-            <button id="delete_btn" @click='deleteTask(item._id)'><i class="fas fa-trash-alt"></i></button>
-          </div>
-        </div>
-
-      </div>
-
+      <TaskCard  v-for="item in tasksSetByMe" :key="item._id" 
+                :taskInfo="item"
+                :class="{'finished': item.status == 'Finished'}"
+                @commentTask="transferDataToShowForm"
+                @editTask="transferDataToForm"
+                @deleteTask="deleteTask"/>
     </div>
   </div>
+  <LoadingBlock v-if="loading"/>  
 </template>
 <script>
-
+  import TaskCard from '../TaskCard/TaskCard.vue'
   export default {
     name: 'AsignedTasks',
+    props: {
+      allUsers: Array,
+      newCommentsArr: Object,
+      editedTask: Object
+    },
+    components: {
+      TaskCard
+    },
     data() {
       return {
         tasksSetByMe: [],
         edit: true,
-        counter_completed: ''
+        counter_completed: '',
+        loading: true
         // finihsedNotAccepted: finihsedTaskCounter()
       }
     },
-
-    props: {
-      allUsers: Array
+    created() {
+      this.loading = true
+      this.getTasksSetByMe().then(res => {
+        this.tasksSetByMe = res
+        this.tasksSetByMe.forEach(task => {
+          if (task.performer) {
+            let user = this.allUsers.find(u => u._id == task.performer)
+            // task.performerName = user.name + " " + user.surname
+              task.taskPerformer = {...user}
+          }
+        })
+      }).finally(() => {
+        this.loading = false
+      })
     },
-    created: function() {
-      this.getTasksSetByMe()
-    },
-    updated: function() {
-      this.complexityColor();
-      console.log(this.finishedTaskCounter);
+    updated() {
       this.complexityColor();
       if (parseInt(this.finishedTaskCounter) > 0) {
         document.getElementsByClassName("notification_completed_tasks")[0].innerHTML = this.finishedTaskCounter;
@@ -57,13 +58,32 @@
         document.getElementsByClassName("notification_completed_tasks")[0].innerHTML = "";
       }
     },
-    mounted() {
+    watch: {
+      newCommentsArr: function() {
+        if (Object.keys(this.newCommentsArr).length) {
+          let task = this.tasksSetByMe.find(f => f._id == this.newCommentsArr.taskId)
+          task.comments = structuredClone(this.newCommentsArr.comments)
+        }
+      },
+      editedTask: function() {
+        if (Object.keys(this.editedTask).length) {
+          this.tasksSetByMe[this.tasksSetByMe.findIndex(f => f._id == this.editedTask._id)] = structuredClone(this.editedTask)
+        }
+      },
+      allUsers: function() {
+        this.tasksSetByMe.forEach(task => {
+          if (task.performer) {
+            let user = this.allUsers.find(u => u._id == task.performer)
+              task.taskPerformer = {...user}
+          }
+        })
+      }
     },
     computed: {
       finishedTaskCounter: function(){
         let counter = 0;
         this.tasksSetByMe.forEach((item) => {
-          if (item.status === 'finished') {
+          if (item.status === 'Finished') {
             counter ++
           }
         });
@@ -71,37 +91,52 @@
       }
     },
     methods: {
-      transferDataToForm: function(item) {
-        item.edit = true;
-        document.querySelector("#set_form").classList.add("flex");
-        this.$emit('editBtnClick', item); // just commented
+      transferDataToForm(item) {
+        this.$emit('editBtnClick', item)
       },
-      transferDataToShowForm: function(item) {
-        item.readOnly = true;
-        item.allUsers = this.allUsers;
+      transferDataToShowForm(item) {
         this.$emit('commentBtnClick', item);
-        document.querySelector("#show_form").classList.add("flex");
-
-
       },
-      getTasksSetByMe: async function () { // calls automatically hool crated
-        let userId = {id: localStorage.id};
-        const response = await fetch(`/api/tasksSetByMe`, {
+      getTasksSetByMe()  {
+        let userId = localStorage.id;
+        return new Promise(  (resolve) => {
+           const res =  fetch(`/api/tasksSetByMe`, {
             method: 'POST',
             headers: {'Content-Type': 'application/json'},
-            body: JSON.stringify(userId)
+            body: JSON.stringify({id: userId})
           })
-        this.tasksSetByMe = await response.json();
+          res.then((resp) => resolve(resp.json()))
+          })
+          .catch(function(error) {
+            console.log(error)
+          })
       },
-      deleteTask: async function(itemId){
-        console.log('deleteTask func started. Task id - ' + itemId);
-        let taskId = {id: itemId};
+
+      deleteTask: async function(task){
+        
+        let meta = {
+          taskId: {id: task._id}
+        }
+        /// add for version with employee_workload
+        
+        // let newWorkload = parseInt(task.taskPerformer.employee_workload) - parseInt(task.complication) 
+        // let meta = {}
+        // if (task.status !== 'finished') {
+        //   meta = {
+        //   userObj: {'id': parseInt(task.performer), 'new_employee_workload': newWorkload},
+        //   taskId: {id: task._id}
+        //   }
+        // } else {
+        //   meta = {
+        //     taskId: {id: task._id}
+        //   }
+        // }
+        this.tasksSetByMe.splice(this.tasksSetByMe.findIndex(f => f._id === task._id), 1)
         await fetch(`/api/deleteTask`, {
             method: 'POST',
             headers: {'Content-Type': 'application/json'},
-            body: JSON.stringify(taskId)
+            body: JSON.stringify(meta)
           })
-          document.location.reload()
       },
       complexityColor: function() {
         let num = '';

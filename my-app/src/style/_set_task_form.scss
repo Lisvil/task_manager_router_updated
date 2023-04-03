@@ -13,10 +13,12 @@
     .set_task_form__header {
       @extend %display;
 
-      h2 {color: $title_color}
+      h4 {color: $title_color}
       .set_task_form__close_btn {
         @extend %btn;
-        padding: 3px 5px;
+        padding: 3px 7px;
+        font-size: 14px;
+        margin: 0
       }
     }
     .set_task_form__name {
@@ -25,6 +27,7 @@
       padding: 5px;
       margin: 15px 0;
       text-indent: 5px;
+      border-radius: 5px;
       @media (max-width: 899px) {
         width: 300px;
       }
@@ -63,12 +66,8 @@
         @extend %borders;
         border-radius: 7px;
         padding: 5px 10px;
-        @media (max-width: 1105px) {
-          width: 450px;
-        }
-        @media (max-width: 899px) {
-          width: 300px;
-        }
+        outline: none;
+        width: 100%;
       }
     }
     .set_task_form__attach {
@@ -100,7 +99,7 @@
         @extend %inputs;
         width: 100px;
       }
-      margin-bottom: 30px;
+      margin-bottom: 20px;
     }
 
     .set_task_form__asign {
@@ -110,11 +109,14 @@
         border: 1px solid darken(#e1f0d8, 10);
         border-radius: 10px;
         width: 500px;
-        height: 90px;
+        // height: 90px;
         background: $notice_bg;
         padding: 10px;
         @media (max-width: 900px) {
           height: 158px;
+        }
+        p {
+          margin: 0;
         }
       }
       #set_task_form__asign_btn {

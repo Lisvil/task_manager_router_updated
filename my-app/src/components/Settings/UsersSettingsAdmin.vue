@@ -1,22 +1,25 @@
 <template>
-  <div class="settings_users">
-    <div class="settings_user_card" v-for="user in usersAdmin" v-bind:key="user._id">
-      <div class="settings_users__photo">
-        <img :src="require(`../../assets/images/${user.image}`)" v-if="user.hasOwnProperty('image')">
-      </div>
-      <div class="settings_users__info">
-        <div class="settings_user_name">
-          {{ user.name }} {{ user.surname}}
+  <div>
+    <div v-if="!loading" class="settings_users">
+      <div class="settings_user_card" v-for="user in usersAdmin" v-bind:key="user._id">
+        <div class="settings_users__photo">
+          <img :src="require(`../../assets/images/${user.image}`)" v-if="user.hasOwnProperty('image')">
         </div>
-        <div class="settings_user_login">
-          Login: {{ user.login }}
+        <div class="settings_users__info">
+          <div class="settings_user_name">
+            {{ user.name }} {{ user.surname}}
+          </div>
+          <div class="settings_user_login">
+            Login: {{ user.login }}
+          </div>
+          <div class="settings_user_password">
+            Password: {{ user.password }}
+          </div>
+          <div class="settings_user_delete_user" @click="deleteUser(`${user._id}`)"><button id="del_user">Delete user <i class="far fa-trash-alt"></i></button></div>
         </div>
-        <div class="settings_user_password">
-          Password: {{ user.password }}
-        </div>
-        <div class="settings_user_delete_user" @click="deleteUser(`${user._id}`)"><button id="del_user">Delete user <i class="far fa-trash-alt"></i></button></div>
       </div>
     </div>
+    <LoadingBlock v-if="loading"/> 
   </div>
 </template>
 <script>
@@ -26,6 +29,7 @@
     data: function() {
       return {
         usersAdmin: [],
+        loading: false
       }
     },
     created: function(){
@@ -33,9 +37,10 @@
     },
     methods: {
       showAllUsers: async function () {
-        console.log('showLog from requestToApi');
+        this.loading = true
         const response = await fetch('/api/allUsers');
         this.usersAdmin = await response.json();
+        this.loading = false
       },
       deleteUser: async function(userId){
         console.log('deleteUser func started. User id - ' + userId);

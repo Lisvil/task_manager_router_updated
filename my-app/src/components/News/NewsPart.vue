@@ -1,40 +1,42 @@
 <template>
-  <div id="news">
-    <div class="news_part">
-          <div class="all_news">
-            <h2>Новини компанії</h2>
-            <div class="single_news" v-for="(news, index) in allNews" :key="index">
-              <div class="news_creator_photo">
-                <img class="creator_photo" :src="require(`../../assets/images/${news.photo}`)">
-              </div>
-              <div class="single_news_body">
-                <div class="single_news_body__header">
-                  <div class="news_creator_name">
-                    {{ news.creatorName }}
-                  </div>
-                  <div class="single_news_body__data">
-                    {{ news.newsDate }}
-                  </div>
-
+  <div>
+    <div v-if="!loading" id="news">
+      <div class="news_part">
+        <div class="all_news">
+          <h2>Новини компанії</h2>
+          <div class="single_news" v-for="(news, index) in allNews" :key="index">
+            <div class="news_creator_photo">
+              <img class="creator_photo" :src="require(`../../assets/images/${news.photo}`)">
+            </div>
+            <div class="single_news_body">
+              <div class="single_news_body__header">
+                <div class="news_creator_name">
+                  {{ news.creatorName }}
                 </div>
-                <p class="news_text">{{ news.newsBody }}</p>
+                <div class="single_news_body__data">
+                  {{ showNewsDate(news.newsDate)}}
+                </div>  
               </div>
+              <p class="news_text">{{ news.newsBody }}</p>
             </div>
-
-
-          </div>
-          <div class="news_aside_part">
-            <div class="add_news_form">
-              <h3>Додати новину</h3>
-              <!-- <input class="news_title" type="text" v-model="newsTitle" placeholder="Введіть назву новини"> -->
-              <textarea class="textarea_news" v-model="newsBody" placeholder="Введіть текст"></textarea><br>
-              <button class="add_news_button" @click="addNews">Додати</button>
-            </div>
-<!-- ****************************************************************************** -->
-                
-<!-- ****************************************************************************** -->
+          </div>  
+        </div>
+        <div class="news_aside_part">
+          <div class="add_news_form">
+            <h3>Додати новину</h3>
+            <!-- <input class="news_title" type="text" v-model="newsTitle" placeholder="Введіть назву новини"> -->
+            <textarea class="textarea_news" v-model="newsBody" placeholder="Введіть текст"></textarea><br>
+              <button class="add_news_button" @click="addNews">
+                <template v-if="!btnloading">
+                  Додати
+                </template>
+                <b-spinner v-else variant="light" small></b-spinner>
+              </button>
           </div>
         </div>
+      </div>
+    </div>
+    <LoadingBlock v-if="loading"/> 
   </div>
 </template>
 
@@ -49,44 +51,49 @@
         userName: localStorage.getItem("name"),
         userPhoto: localStorage.getItem("photo"),
         newsDate: '',
+        loading: false,
+        btnloading: false
       }
     },
     created: function() {
+      let date = new Date()
+      this.newsDate = date.getDate() + '.' + (date.getMonth() + 1) + "." + date.getFullYear();
       this.getAllNews()
-    },
-    mounted() {
-      // function date_on_site(){
-      //   let date = new Date();
-      //   let day = date.getDate();
-      //   let month = date.getMonth();
-      //   let year = date.getFullYear()
-      //   let current_data = day + "." + (month + 1) + "." + year;
-      //   console.log(current_data);
-      // }
-      this.date_on_site();
     },
     methods: {
       async addNews() {
+        this.btnloading = true
         let newsToAdd = {"creator": localStorage.getItem("id"), "newsBody": this.newsBody, "photo": this.userPhoto, "creatorName": this.userName, "newsDate": this.newsDate }
+        this.newsBody = ''
         // console.log(newsToAdd);
-        await fetch(`/api/createNews`, {
+        const obj = await fetch(`/api/createNews`, {
             method: 'POST',
             headers: {'Content-Type': 'application/json'},
             body: JSON.stringify(newsToAdd)
           })
-          document.location.reload();
+        console.log(obj)
+        this.allNews.unshift(newsToAdd)
+        this.btnloading = false
+        
+          // document.location.reload();
       },
       getAllNews: async function () {
+        this.loading = true
         const response = await fetch(`/api/allNews`)
-        this.allNews = await response.json();
+        this.allNews = await response.json()
+        this.allNews.reverse()
+        this.loading = false
       },
-      date_on_site(){
-        let date = new Date();
-        let day = date.getDate();
-        let month = date.getMonth();
-        let year = date.getFullYear()
-        let current_data = day + "." + (month + 1) + "." + year;
-        this.newsDate = current_data;
+      showNewsDate(date) {
+        let arr = date.split('.')
+        arr = arr.map(el => {
+          if (el < 10) {
+            return '0' + el
+          } else {
+            return el
+          }
+        })
+        return arr[0] + '.' + arr[1] + '.' + arr[2]
       }
     }
   }

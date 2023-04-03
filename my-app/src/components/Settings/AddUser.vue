@@ -34,6 +34,8 @@
   }
 </script>
 <style>
-  .settings_add_user {padding-top: 22px;}
+  .settings_add_user {
+    padding-top: 22px;
+  }
 
 </style>

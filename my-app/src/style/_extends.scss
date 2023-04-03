@@ -19,7 +19,7 @@
 %inputs {
   @extend %borders;
   padding: 3px 7px;
-  border-radius: 7px;
+  border-radius: 5px;
   color: #636161;
   background: $set_task_input_color;
 }
@@ -49,28 +49,36 @@
     @media (max-width: 1149px) {
       margin-right: 20px;
     }
-    .asigned_task__header {
+    p {margin: 0}
 
-      // display: flex;
-      // justify-content: space-between;
-      // align-items: center;
-      margin-bottom: 20px;
+    .asigned_task__header {
+      margin-bottom: 15px;
+      .task__header-container {
+        display: flex;
+        justify-content: space-between;
+      }
       .asigned_task__complexity {
-        margin-left: 80%;
         width: 60px;
         height: 20px;
-        // background: #7af060;
         border-radius: 10px;
         font-size: 0px;
-        // border: 1px solid #60bd4b;
       }
 
     }
     .asigned_task__body {
+      .asigned_task__name {
+        display: -webkit-box;
+        -webkit-line-clamp: 2;
+        -webkit-box-orient: vertical;
+        overflow: hidden;
+        margin-bottom: 10px;
+      }
       .asigned_task_text{
         margin-bottom: 20px;
-        height: 90px;
         overflow: hidden;
+        display: -webkit-box;
+        -webkit-line-clamp: 2;
+        -webkit-box-orient: vertical;
       }
       .asigned_task__deadline{
         position: absolute;
@@ -92,6 +100,7 @@
       }
       .asigned_task__buttons{
         display: flex;
+        align-items: baseline;
         position: absolute;
         bottom: 20px;
         width: 90%;

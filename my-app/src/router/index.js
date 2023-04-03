@@ -7,6 +7,11 @@ const routes = [
     name: 'avtorization',
     component: AvtorizationView
   },
+  // {
+  //   path: '/test',
+  //   name: 'test',
+  //   component: () => import('../views/TestFlow.vue')
+  // },
   {
     path: '/home',
     name: 'home',
@@ -22,6 +27,14 @@ const routes = [
       {
         path: 'my-tasks',
         component: () => import(/* webpackChunkName: "about" */ '../views/MyTasksView.vue')
+      },
+      {
+        path: 'schema',
+        component: () => import(/* webpackChunkName: "about" */ '../views/ProjectSchema.vue')
+      },
+      {
+        path: 'calendar',
+        component: () => import(/* webpackChunkName: "about" */ '../views/CalendarTask.vue')
       },
       {
         path: 'users',

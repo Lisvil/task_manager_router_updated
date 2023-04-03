@@ -6,9 +6,10 @@
   top: 0px;
   left: 0;
   z-index: 3;
+  display: flex;
   justify-content: center;
   align-items: center;
-  display: none;
+  // display: none;
 }
 .set_task_btn{
   margin-bottom: 30px;
@@ -31,8 +32,7 @@
 }
 
 
-.asigned_tasks_part {
-}
+
 .asigned_tasks {
   display: flex;
   flex-wrap: wrap;

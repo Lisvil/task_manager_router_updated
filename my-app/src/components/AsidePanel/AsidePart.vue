@@ -24,6 +24,25 @@
             <p class="menu_item">Мої завдання</p>
           </router-link>
         </div>
+        <!-- <div class="my-tasks" :class="{ active: this.$route.path == '/home/schema'}">
+          <router-link to="/home/schema">
+
+            <div class="icon_block">
+              <i class="fa-solid fa-timeline"></i>
+            </div>
+            <p class="menu_item">Схема проекту</p>
+          </router-link>
+        </div> -->
+        <div class="my-tasks" :class="{ active: this.$route.path == '/home/calendar'}">
+          <!-- <router-link :to="{ name: '/home/set-tasks', params: {} }"> -->
+          <router-link to="/home/calendar">
+
+            <div class="icon_block">
+              <i class="fa-regular fa-calendar-days"></i>
+            </div>
+            <p class="menu_item">Календар</p>
+          </router-link>
+        </div>
         <div class="colleages"  :class="{ active: this.$route.path == '/home/users'}">
           <router-link to="/home/users">
             <div class="icon_block">
@@ -42,12 +61,12 @@
             <p class="menu_item">Новини</p>
           </router-link>
         </div>
-        <div class="add_user" v-show="isAdmin != 'undefined' " :class="{ active: this.$route.path == '/home/admin-page'}">
+        <!-- <div class="add_user" v-show="isAdmin != 'undefined' " :class="{ active: this.$route.path == '/home/admin-page'}">
           <router-link to="/home/admin-page">
             <i class="fas fa-user-plus"></i>
             <p class="menu_item">Додати користувача</p>
           </router-link>
-        </div>
+        </div> -->
         <div class="hide_menu" @click="show_menu">
           <i class="fas fa-chevron-right"></i>
         </div>

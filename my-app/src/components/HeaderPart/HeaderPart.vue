@@ -1,11 +1,10 @@
 <template>
   <header>
-    <div class="logo"><a href="index.html">Task Manager / {{ userPosition }}</a></div>
-
+    <div class="logo"><router-link :to="{ name: 'home', params: {} }">Task Manager / {{ userPosition }}</router-link></div>
     <div class="full-data">
-      <div class="time"> {{ currentTime }} </div>
-      <div class="day">{{ currentDate }}</div>
-      <div class="data">26.11.2021</div>
+      <div class="time">{{ currentTime }} </div>
+      <div class="day">{{ currentDay }}</div>
+      <div class="data"> {{ currentDate }}</div>
     </div>
     <div class="user-info">
       <div class="user_photo">
@@ -15,7 +14,6 @@
         {{ userName }}
       </div>
       <router-link to="/#"><button @click='cleanCookies'>Вийти</button></router-link>
-
     </div>
   </header>
 </template>
@@ -30,6 +28,7 @@
         userPosition: localStorage.getItem("position"),
         userPhoto: localStorage.getItem("photo"),
         currentTime: '',
+        currentDay: '',
         currentDate: ''
       }
     },
@@ -45,25 +44,23 @@
         let dayOfWeek = ["Sunday","Monday","Tuesday","Wednesday","Thursday","Friday","Saturday"]
         let days = date.getDay();
         this.currentTime = hours + ':' + minutes;
-        this.currentDate = dayOfWeek[days];
-
+        this.currentDay = dayOfWeek[days];
+      },
+      dateOnSite() {
+        let date = new Date();
+        let day = date.getDate();
+        let month = date.getMonth();
+        let year = date.getFullYear()
+        day = day - 10 > 0 ? day : '0' + day
+        month = month - 10 > 0 ? month + 1 : '0' + (month + 1)
+        this.currentDate = day + "." + month + "." + year;
       }
 
     },
     mounted() {
-    setInterval(this.clock, 1000);
-
-    function date_on_site(){
-      let date = new Date();
-      let day = date.getDate();
-      let month = date.getMonth();
-      let year = date.getFullYear()
-      let current_data = day + "." + (month + 1) + "." + year;
-      document.querySelector(".data").innerHTML = current_data;
-
-    }
-    date_on_site();
-  },
+      this.dateOnSite()
+      setInterval(this.clock, 1000);
+  }
 
 }
 </script>
