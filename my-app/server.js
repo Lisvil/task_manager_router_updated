@@ -1,6 +1,7 @@
 const express = require('express');
 const bodyParser = require('body-parser');
 const path = require('path');
+const cors = require('cors');
 const { MongoClient } = require('mongodb');
 const multer  = require('multer')
 
@@ -20,6 +21,7 @@ const port = 3080;
 const upload = multer({ storage: storage }) // using multer
 const app = express();
 
+app.use(cors())
 app.use(bodyParser.json());
 var urlencodedParser = bodyParser.urlencoded({extended: false});
 

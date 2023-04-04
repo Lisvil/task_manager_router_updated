@@ -54,8 +54,8 @@
         this.btnLoading = true
         let userInfo = {login: this.userLogin, password: this.userPassword}
         // https://task-manager-lzi3.onrender.com
-        // const response = await fetch(`https://task-manager-lzi3.onrender.com/api/checkUser`, { ///api/checkUser
-        const response = await fetch(`/api/checkUser`, { ///api/checkUser
+        const response = await fetch(`https://task-manager-lzi3.onrender.com/api/checkUser`, { ///api/checkUser
+        // const response = await fetch(`/api/checkUser`, { ///api/checkUser
 
             method: 'POST',
             headers: {'Content-Type': 'application/json'},

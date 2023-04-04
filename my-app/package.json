@@ -8,7 +8,7 @@
     "lint": "vue-cli-service lint",
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "node server.js",
-    "dev": "concurrently \"node server.js\" \"npm run build\""
+    "dev": "concurrently \"node server.js\" \"npm run serve\""
   },
   "dependencies": {
     "@braks/vue-flow": "^0.4.40",
@@ -19,6 +19,7 @@
     "bootstrap-vue-3": "^0.3.7",
     "concurrently": "^7.3.0",
     "core-js": "^3.8.3",
+    "cors": "^2.8.5",
     "express": "^4.17.1",
     "jquery": "^3.6.4",
     "mongodb": "^4.1.2",
