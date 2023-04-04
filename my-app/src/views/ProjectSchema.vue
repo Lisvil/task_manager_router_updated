@@ -508,7 +508,7 @@
 
   }
  </script>
-<style>
+<style lang="scss" scoped>
   @import 'https://cdn.jsdelivr.net/npm/@braks/vue-flow@0.4.40/dist/style.css';
   @import 'https://cdn.jsdelivr.net/npm/@braks/vue-flow@0.4.40/dist/theme-default.css';
 
