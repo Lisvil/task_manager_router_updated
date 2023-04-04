@@ -100,7 +100,7 @@
       getTasksSetByMe()  {
         let userId = localStorage.id;
         return new Promise(  (resolve) => {
-           const res =  fetch(`/api/tasksSetByMe`, {
+           const res =  fetch(`https://task-manager-lzi3.onrender.com/api/tasksSetByMe`, {
             method: 'POST',
             headers: {'Content-Type': 'application/json'},
             body: JSON.stringify({id: userId})
@@ -132,7 +132,7 @@
         //   }
         // }
         this.tasksSetByMe.splice(this.tasksSetByMe.findIndex(f => f._id === task._id), 1)
-        await fetch(`/api/deleteTask`, {
+        await fetch(`https://task-manager-lzi3.onrender.com/api/deleteTask`, {
             method: 'POST',
             headers: {'Content-Type': 'application/json'},
             body: JSON.stringify(meta)

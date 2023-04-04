@@ -113,7 +113,9 @@ import KanbanSettingsModal from "./KanbanSettingsModal.vue"
       },
       getKanban: async function() {
         this.loading = true
-        const response = await fetch (`/api/kanban`)
+        // const response = await fetch (`/api/kanban`)
+        const response = await fetch (`https://task-manager-lzi3.onrender.com/api/kanban`)
+
         this.kanban = await response.json();
         this.kanban.statuses.forEach(s => {
           s.items = []
@@ -143,7 +145,8 @@ import KanbanSettingsModal from "./KanbanSettingsModal.vue"
       },
       getMyTasks: async function () {       
         let userId = {id: localStorage.id};
-        const response = await fetch(`/api/myTasks`, {
+        // https://task-manager-lzi3.onrender.com
+        const response = await fetch(`https://task-manager-lzi3.onrender.com/api/myTasks`, {
             method: 'POST',
             headers: {'Content-Type': 'application/json'},
             body: JSON.stringify(userId)
@@ -170,7 +173,7 @@ import KanbanSettingsModal from "./KanbanSettingsModal.vue"
       getTasksSetByMe()  {
         let userId = localStorage.id;
         return new Promise(  (resolve) => {
-           const res =  fetch(`/api/tasksSetByMe`, {
+           const res =  fetch(`https://task-manager-lzi3.onrender.com/api/tasksSetByMe`, {
             method: 'POST',
             headers: {'Content-Type': 'application/json'},
             body: JSON.stringify({id: userId})
@@ -210,7 +213,7 @@ import KanbanSettingsModal from "./KanbanSettingsModal.vue"
           //   body: JSON.stringify(meta)
           // })
         // }
-        await fetch('/api/changeStatus', {
+        await fetch('https://task-manager-lzi3.onrender.com/api/changeStatus', {
             method: 'POST',
             headers: {'Content-Type': 'application/json'},
             body: JSON.stringify(meta)

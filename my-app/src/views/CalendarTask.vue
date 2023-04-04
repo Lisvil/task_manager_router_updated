@@ -46,7 +46,7 @@
       getMyTasks: async function () {
       this.loading = true
       let userId = {id: localStorage.id};
-      const response = await fetch(`/api/myTasks`, {
+      const response = await fetch(`https://task-manager-lzi3.onrender.com/api/myTasks`, {
           method: 'POST',
           headers: {'Content-Type': 'application/json'},
           body: JSON.stringify(userId)

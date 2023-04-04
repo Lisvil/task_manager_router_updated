@@ -66,7 +66,7 @@
         let newsToAdd = {"creator": localStorage.getItem("id"), "newsBody": this.newsBody, "photo": this.userPhoto, "creatorName": this.userName, "newsDate": this.newsDate }
         this.newsBody = ''
         // console.log(newsToAdd);
-        const obj = await fetch(`/api/createNews`, {
+        const obj = await fetch(`https://task-manager-lzi3.onrender.com/api/createNews`, {
             method: 'POST',
             headers: {'Content-Type': 'application/json'},
             body: JSON.stringify(newsToAdd)
@@ -79,7 +79,7 @@
       },
       getAllNews: async function () {
         this.loading = true
-        const response = await fetch(`/api/allNews`)
+        const response = await fetch(`https://task-manager-lzi3.onrender.com/api/allNews`)
         this.allNews = await response.json()
         this.allNews.reverse()
         this.loading = false

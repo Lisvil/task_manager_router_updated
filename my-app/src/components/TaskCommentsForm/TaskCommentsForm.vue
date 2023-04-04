@@ -49,7 +49,7 @@ export default {
 
       let commentsToUpdate = { "_id": this.taskId, comments: meta};
 
-      await fetch(`/api/addComment`, {
+      await fetch(`https://task-manager-lzi3.onrender.com/api/addComment`, {
           method: 'POST',
           headers: {'Content-Type': 'application/json'},
           body: JSON.stringify(commentsToUpdate)

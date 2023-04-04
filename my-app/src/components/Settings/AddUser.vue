@@ -1,6 +1,6 @@
 <template>
   <div class="settings_add_user">
-    <form class="add_user__form" action="/api/contacts" method="post" >
+    <form class="add_user__form" action="https://task-manager-lzi3.onrender.com/api/contacts" method="post" >
       <h3>Додати нового користувача</h3>
       <label for="surname">Прізвище</label>
       <input type="text" name="surname" class="input">

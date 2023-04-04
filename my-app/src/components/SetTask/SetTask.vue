@@ -73,7 +73,7 @@
     methods: {
       showAllUsers: async function () {
         this.loading = true
-        const response = await fetch('/api/allUsers');
+        const response = await fetch('https://task-manager-lzi3.onrender.com/api/allUsers');
         this.allUsersArr = await response.json();
         this.allUsersArr.sort((a, b) => {
           return a._id - b._id

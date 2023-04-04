@@ -97,7 +97,7 @@
           userObj: {'id': parseInt(this.task.performer), 'new_employee_workload': newWorkload},
         }
         console.log(meta)
-        await fetch(`/api/finishTask`, {
+        await fetch(`https://task-manager-lzi3.onrender.com/api/finishTask`, {
             method: 'POST',
             headers: {'Content-Type': 'application/json'},
             body: JSON.stringify(meta)

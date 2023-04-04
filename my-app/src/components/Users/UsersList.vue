@@ -35,7 +35,7 @@
     methods: {
       showAllUsers: async function () {
         this.loading = true
-        const response = await fetch('/api/allUsers');
+        const response = await fetch('https://task-manager-lzi3.onrender.com/api/allUsers');
         this.usersAdmin = await response.json();
         this.loading = false
       }

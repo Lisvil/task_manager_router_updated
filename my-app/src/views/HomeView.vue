@@ -37,7 +37,7 @@ export default {
   methods: {
     getMyTasks: async function () {
       let userId = {id: localStorage.id};
-      const response = await fetch(`/api/myTasks`, {
+      const response = await fetch(`https://task-manager-lzi3.onrender.com/api/myTasks`, {
           method: 'POST',
           headers: {'Content-Type': 'application/json'},
           body: JSON.stringify(userId)
@@ -52,7 +52,7 @@ export default {
     },
     getTasksSetByMe: async function () { // calls automatically hool crated
       let userId = {id: localStorage.id};
-      const response = await fetch(`/api/tasksSetByMe`, {
+      const response = await fetch(`https://task-manager-lzi3.onrender.com/api/tasksSetByMe`, {
           method: 'POST',
           headers: {'Content-Type': 'application/json'},
           body: JSON.stringify(userId)

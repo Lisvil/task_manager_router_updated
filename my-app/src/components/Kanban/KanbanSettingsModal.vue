@@ -80,7 +80,7 @@ export default {
         statuses: this.columns
       }
       this.btnLoading = true
-      await fetch('/api/changeKanban', {
+      await fetch('https://task-manager-lzi3.onrender.com/api/changeKanban', {
             method: 'POST',
             headers: {'Content-Type': 'application/json'},
             body: JSON.stringify(meta)

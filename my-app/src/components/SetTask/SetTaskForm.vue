@@ -154,7 +154,7 @@
           let meta = {
             task: this.task
           }
-          await fetch(`/api/createTask`, {
+          await fetch(`https://task-manager-lzi3.onrender.com/api/createTask`, {
             method: 'POST',
             headers: {'Content-Type': 'application/json'},
             body: JSON.stringify(meta) 
@@ -183,7 +183,7 @@
           //   let userBeforeUpdateObj = {'id': parseInt(this.taskPerformerBeforeEdit), 'new_employee_workload': this.employeeWorkloadBeforeEdit};
           //   infoToUpdate.userBeforeEdit = userBeforeUpdateObj; // add user userBeforeUpdateObj into taskObj
           // }
-          await fetch(`/api/updateTask`, {
+          await fetch(`https://task-manager-lzi3.onrender.com/api/updateTask`, {
             method: 'POST',
             headers: {'Content-Type': 'application/json'},
             body: JSON.stringify(infoToUpdate) // infoToUpdate - taskObj + userObj
