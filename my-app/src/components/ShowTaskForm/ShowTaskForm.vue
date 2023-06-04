@@ -82,7 +82,8 @@
       commentMode: Boolean
     },
     created() {
-      this.task = structuredClone(this.info)
+      // this.task = structuredClone(this.info)
+      this.task = JSON.parse(JSON.stringify(this.info))
     },
     methods: {
       creatorName() {

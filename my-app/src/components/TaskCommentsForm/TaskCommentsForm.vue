@@ -34,13 +34,17 @@ export default {
     }
   },
   created() {
-    this.taskCommentsArr = structuredClone(this.taskComments)
+    // this.taskCommentsArr = structuredClone(this.taskComments)
+    this.taskCommentsArr = JSON.parse(JSON.stringify(this.taskComments))
+    
   },
   methods: {
     addComment: async function (e) {
       this.btnLoading = true
       e.preventDefault();
-      let meta = structuredClone(this.taskCommentsArr)
+      // let meta = structuredClone(this.taskCommentsArr)
+      let meta = JSON.parse(JSON.stringify(this.taskCommentsArr))
+      
       meta.push( /// this.taskComments
         {userName: localStorage.name,
          comment: this.userComments}

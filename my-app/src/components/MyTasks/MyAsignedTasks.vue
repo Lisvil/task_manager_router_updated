@@ -57,7 +57,8 @@ export default {
     newCommentsArr: function() {
       if (Object.keys(this.newCommentsArr).length) {
         let task = this.myTasks.find(f => f._id == this.newCommentsArr.taskId)
-        task.comments = structuredClone(this.newCommentsArr.comments)
+        // task.comments = structuredClone(this.newCommentsArr.comments)
+        task.comments = JSON.parse(JSON.stringify(this.newCommentsArr.comments))
       }
     },
   },

@@ -1,6 +1,7 @@
 <template>
   <div class="loader-container">
     <div class="loader"></div>
+    <div class="loader__text">Receiving data. Please wait</div>
   </div>
 </template>
 <script>
@@ -38,6 +39,11 @@
         background: #fff
         transform: scale(0.75) 
         border-radius: 50%
+    .loader__text  
+      position: relative
+      top: 47%
+      color: #bab0c7
+      margin: 0 auto
 
 @keyframes animate 
   0% 

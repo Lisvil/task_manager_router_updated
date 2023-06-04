@@ -59,7 +59,9 @@ export default {
     }
   },
   created() {
-    this.columns = structuredClone(this.kanban.statuses)
+    // this.columns = structuredClone(this.kanban.statuses)
+    this.columns = JSON.parse(JSON.stringify(this.kanban.statuses))
+
   },
   methods: {
     addNewColumn() {

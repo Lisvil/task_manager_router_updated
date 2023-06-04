@@ -113,7 +113,8 @@
     created() {
       // this.loadData()
       if (Object.keys(this.editInfo).length) {
-        this.task = structuredClone(this.editInfo)
+        // this.task = structuredClone(this.editInfo)
+        this.task =  JSON.parse(JSON.stringify(this.editInfo))
       }
     },
     methods: {

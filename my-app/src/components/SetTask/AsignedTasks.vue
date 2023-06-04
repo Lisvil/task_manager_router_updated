@@ -62,12 +62,14 @@
       newCommentsArr: function() {
         if (Object.keys(this.newCommentsArr).length) {
           let task = this.tasksSetByMe.find(f => f._id == this.newCommentsArr.taskId)
-          task.comments = structuredClone(this.newCommentsArr.comments)
+          task.comments = JSON.parse(JSON.stringify(this.newCommentsArr.comments))
         }
       },
       editedTask: function() {
         if (Object.keys(this.editedTask).length) {
-          this.tasksSetByMe[this.tasksSetByMe.findIndex(f => f._id == this.editedTask._id)] = structuredClone(this.editedTask)
+          // this.tasksSetByMe[this.tasksSetByMe.findIndex(f => f._id == this.editedTask._id)] = structuredClone(this.editedTask)
+          this.tasksSetByMe[this.tasksSetByMe.findIndex(f => f._id == this.editedTask._id)] = JSON.parse(JSON.stringify(this.editedTask))
+
         }
       },
       allUsers: function() {
